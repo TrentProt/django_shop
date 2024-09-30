@@ -1,0 +1,23 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block content %}
+        {{ category.name|capfirst }}
+        <ul>
+            <li>
+            {% for product in products %}
+                {{ product.title }}
+                {{ product.price }}
+                {{ product.description }}
+            {% endfor %}
+            </li>
+        </ul>
+    {% endblock %}
+</body>
+</html>

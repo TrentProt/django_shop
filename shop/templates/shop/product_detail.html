@@ -1,0 +1,15 @@
+{% extends "layout/base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% block content %}
+        Карточка товара
+        {{ product.title }}
+        {{ product.description }}
+    {% endblock %}
+</body>
+</html>

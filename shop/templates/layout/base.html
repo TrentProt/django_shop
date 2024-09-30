@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+    {% for i in categories %}
+    {% if not i.children.all %}
+        <li class="nav-item">
+            <a class="nav-link" href="{{ i.get_absolute_url }}">{{ i.name|upper }}</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{{ i.get_absolute_url }}"> {{ i.name|upper }}</a>
+            <ul>
+                {% for obj in i.children.all %}
+                {% if not obj.children.all %}
+                    <li>
+                        <a href="{{ obj.get_absosule_url }}">{{ obj.name|upper }}</a>
+                    </li>
+                {% else %}
+                    <a href="{{ obj.get_absolute_url }}">{{ obj.name|upper }}</a>
+                    <div>1</div>
+                    <ul>
+                    {% for sub in obj.children.all %}
+                        <a href="{{ sub.get_absolute_url }}">{{ sub.name|upper }}</a>
+                    {% endfor %}
+                    </ul>
+
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
+    {% endfor %}
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
