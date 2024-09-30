@@ -2,39 +2,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="https://bootswatch.com/5/lux/bootstrap.min.css"
+    />
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- JavaScript -->
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"
+    ></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"
+    ></script>
+    <title>Shopik</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        a {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .superNav {
+            font-size: 15px;
+        }
+        .form-control {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        .navbar-nav li:hover > ul.dropdown-menu {
+            display: block;
+        }
+        .dropdown-submenu > .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -6px;
+        }
+        .dropdown-menu > li > a:hover:after {
+            text-decoration: underline;
+            transform: rotate(-90deg);
+        }
+        @media (max-width: 540px) {
+            .centerOnMobile {
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    {% for i in categories %}
-    {% if not i.children.all %}
-        <li class="nav-item">
-            <a class="nav-link" href="{{ i.get_absolute_url }}">{{ i.name|upper }}</a>
-        </li>
-    {% else %}
-        <li>
-            <a href="{{ i.get_absolute_url }}"> {{ i.name|upper }}</a>
-            <ul>
-                {% for obj in i.children.all %}
-                {% if not obj.children.all %}
-                    <li>
-                        <a href="{{ obj.get_absosule_url }}">{{ obj.name|upper }}</a>
-                    </li>
-                {% else %}
-                    <a href="{{ obj.get_absolute_url }}">{{ obj.name|upper }}</a>
-                    <div>1</div>
-                    <ul>
-                    {% for sub in obj.children.all %}
-                        <a href="{{ sub.get_absolute_url }}">{{ sub.name|upper }}</a>
-                    {% endfor %}
-                    </ul>
+    <div class="superNav border-bottom py-2 bg-light">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-auto centerOnMobile">
+                    <select class="me-3 border-0 bg-light">
+                        <option value="en-us">EN-US</option>
+                    </select>
+                    <span class="d-none d-lg-inline-block"><strong>info@somedomain.com</strong></span>
+                    <span class="me-3"><i class="fa-solid fa-phone me-1 text-warning"></i><strong>1-800-123-1234</strong></span>
+                </div>
+                <div class="col-auto d-none d-lg-flex">
+                    <span class="me-3"><i class="fa-solid fa-truck text-muted me-1"></i><a class="text-muted" href="#">Shipping</a></span>
+                    <span class="me-3"><i class="fa-solid fa-file text-muted me-2"></i><a class="text-muted" href="#">Policy</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                {% endif %}
-                {% endfor %}
-            </ul>
-        </li>
-    {% endif %}
-    {% endfor %}
+    <nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'shop:products' %}"><i class="fa-solid fa-shop me-2"></i><strong>Shopik</strong></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <div class="ms-auto me-3 d-lg-none">
+                    <div class="input-group">
+                        <span class="input-group-text bg-success text-white"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" class="form-control" placeholder="Search" aria-label="Search" />
+                        <button class="btn btn-success text-white">Search</button>
+                    </div>
+                </div>
+                <ul class="navbar-nav ms-auto">
+                    {% for i in categories %}
+                        {% if not i.children.all %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ i.get_absolute_url }}">{{ i.name|upper }}</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="{{ i.get_absolute_url }}" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ i.name|upper }}
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    {% for obj in i.children.all %}
+                                        {% if not obj.children.all %}
+                                            <li><a class="dropdown-item" href="{{ obj.get_absolute_url }}">{{ obj.name|upper }}</a></li>
+                                        {% else %}
+                                            <li class="dropdown-submenu">
+                                                <a class="dropdown-item dropdown-toggle" href="{{ obj.get_absolute_url }}">{{ obj.name|upper }}</a>
+                                                <ul class="dropdown-menu">
+                                                    {% for subobj in obj.children.all %}
+                                                        {% if not subobj.children.all %}
+                                                            <li><a class="dropdown-item" href="{{ subobj.get_absolute_url }}">{{ subobj.name|upper }}</a></li>
+                                                        {% else %}
+                                                            <li class="dropdown-submenu">
+                                                                <a class="dropdown-item dropdown-toggle" href="{{ subobj.get_absolute_url }}">{{ subobj.name|upper }}</a>
+                                                                <ul class="dropdown-menu">
+                                                                    {% for lastobj in subobj.children.all %}
+                                                                        <li><a class="dropdown-item" href="{{ lastobj.get_absolute_url }}">{{ lastobj.name|upper }}</a></li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase" href="#">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase" href="#">
+                            <i class="fa-solid fa-circle-user me-1"></i> Account
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     {% block content %}
     {% endblock %}
 </body>

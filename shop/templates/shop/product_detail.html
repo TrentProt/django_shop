@@ -1,15 +1,39 @@
 {% extends "layout/base.html" %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {% block content %}
-        Карточка товара
-        {{ product.title }}
-        {{ product.description }}
-    {% endblock %}
-</body>
-</html>
+{% load static %}
+{% block content %}
+<div class="container">
+    <main class="pt-5">
+        <div class="row g-3">
+            <div class="col-md-5 col-lg-5 order-md-first bg-light text-center">
+                <img class="img-fluid" alt="Product Image" src="{{product.image.url}}"> <!-- Product image -->
+            </div>
+            <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
+                <h1 class="mb-0 h4">{{ product.name }}</h1>
+                <h6 class="text-muted">{{ product.brand }}</h6>
+                <hr>
+                <p>{{ product.description }}</p>
+                <div class="border rounded p-3 mt-3">
+                    <div class="d-flex justify-content-between border-bottom pb-2">
+                        <strong>Price:</strong>
+                        <span class="h4 fw-bold">$ {{ product.price }}</span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="d-flex align-items-center">
+                            <label for="select" class="me-3">Qty:</label>
+                            <select id="select" class="form-select me-3 w-auto">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                            <button type="button" id="add-button" class="btn btn-primary">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

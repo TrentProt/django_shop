@@ -21,6 +21,7 @@ INSTALLED_APPS = [
 
     #apps
     'shop.apps.ShopConfig',
+    'basket.apps.BasketConfig',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +48,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                'shop.context_processors.categories'
+                'shop.context_processors.categories',
+                'basket.context_processors.basket'
             ],
         },
     },
