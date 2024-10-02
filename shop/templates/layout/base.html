@@ -26,6 +26,7 @@
     ></script>
     <title>Shopik</title>
     <style>
+
         body {
             font-family: Arial, sans-serif;
         }
@@ -136,8 +137,17 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Cart
+                        <a class="nav-link mx-2 text-uppercase" href="{% url 'basket:basket' %}">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket
+                            <span id="lblBasketCount'">
+                                {% with basket_qty=basket|length %}
+                                    {% if basket_qty > 0 %}
+                                        {{ basket_qty }}
+                                    {% else %}
+                                        0
+                                    {% endif %}
+                                {% endwith %}
+                            </span>
                         </a>
                     </li>
                     <li class="nav-item">
