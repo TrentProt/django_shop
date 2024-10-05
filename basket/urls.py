@@ -7,5 +7,6 @@ app_name = 'basket'
 urlpatterns = [
     path('', basket_view, name='basket'),
     path('add/', basket_add, name='add_to_basket'),
-    # path('search/<slug:slug>/', category_list, name='category_list'),
+    path('delete/', basket_delete, name='delete_from_basket'),
+    path('update/', basket_update, name='update_basket')
 ]

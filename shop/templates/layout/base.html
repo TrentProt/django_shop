@@ -139,7 +139,7 @@
                     <li class="nav-item">
                         <a class="nav-link mx-2 text-uppercase" href="{% url 'basket:basket' %}">
                             <i class="fa fa-shopping-cart" aria-hidden="true"></i> Basket
-                            <span id="lblBasketCount'">
+                            <span id="lblBasketCount">
                                 {% with basket_qty=basket|length %}
                                     {% if basket_qty > 0 %}
                                         {{ basket_qty }}

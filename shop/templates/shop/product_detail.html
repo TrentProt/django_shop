@@ -50,7 +50,7 @@
             },
             success: function(response){
                 console.log(response)
-
+                document.getElementById('lblBasketCount').textContent = response.qty
             },
             error: function(error){
                 console.log(error)
