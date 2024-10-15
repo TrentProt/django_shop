@@ -33,6 +33,7 @@ class Basket():
             self.basket[product_id] = {'qty': qty, 'price': str(product.price)}
         self.basket[product_id]['qty'] = qty
         self.session.modified = True
+        print(self.basket)
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
@@ -48,7 +49,5 @@ class Basket():
     def update(self, product, quantity):
         product_id = str(product)
         if product_id in self.basket:
-            print(self.basket)
-            print(self.basket[product_id])
             self.basket[product_id]['qty'] = quantity
             self.session.modified = True

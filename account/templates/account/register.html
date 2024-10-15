@@ -1,0 +1,18 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="bg-white shadow-lg rounded p-5">
+        <h3 class="text-center mb-4">Создать новый аккаунт</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-flex justify-content-center mt-4">
+                <input type="submit" value="Register" class="btn btn-primary btn-lg">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

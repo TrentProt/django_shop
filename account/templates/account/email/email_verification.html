@@ -1,0 +1,15 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+    <div class="bg-white shadow-lg rounded p-4">
+        <div class="alert alert-info text-center" role="alert">
+            <h4 class="alert-heading">Письмо отправлено на почту</h4>
+            <p>На вашу почту было отправлено письмо с подтверждением.</p>
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'shop:products' %}" class="btn btn-primary">Вернуться на главную страницу</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

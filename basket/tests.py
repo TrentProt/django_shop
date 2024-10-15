@@ -4,11 +4,10 @@ from django.contrib.sessions.middleware import SessionMiddleware
 
 from django.test import Client, RequestFactory, TestCase
 from django.urls import reverse
-from unicodedata import category
 
 from shop.models import Category, ProductProxy
 
-from .views import basket_add, basket_delete, basket_update, basket_view
+from .views import basket_add, basket_view
 
 class BasketvView(TestCase):
 
