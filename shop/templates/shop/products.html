@@ -4,15 +4,7 @@
 <section class="py-4 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h4>Choose and it is in your hands.</h4>
-
-        <br />
-
-        <p class="lead text-muted">Browse and make the best deal</p>
-
-        <br />
-
-        <a href="#" class="btn btn-success my-2"> Create an account </a>
+        <a href="{% url 'account:registration' %}" class="btn btn-success my-2"> Создать аккаунт, если вы еще не сделали</a>
       </div>
     </div>
   </section>
@@ -21,7 +13,7 @@
 
   <section class="album py-5 bg-light">
     <div class="container">
-      <div class="pb-3 h5">All products</div>
+      <div class="pb-3 h5">Все продукты</div>
 
       <hr />
 
@@ -38,7 +30,7 @@
                 <a class="text-black  text-decoration-none fs-4" href="{{product.get_absolute_url}}">{{product.title|capfirst}}</a>
               </p>
               <div class="d-flex justify-content-between align-items-center badge bg-success text-wrap" style="width: 6rem;">
-                <h5>$ {{product.price}}</h5>
+                <h5>$ {{ product.price }}</h5>
               </div>
             </div>
           </div>

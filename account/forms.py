@@ -25,3 +25,22 @@ class UserCreateForm(UserCreationForm):
         if User.objects.filter(email=email).exists() or len(email) > 254:
             raise forms.ValidationError('Такая почта уже зарегистрирована')
         return email
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=PasswordInput(attrs={'class': 'form-control'}), label='Пароль')
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField(required=True)
+    password = forms.CharField(widget=PasswordInput(attrs={'class': 'form-control'}))
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+        exclude = ('password1', 'password2')
+
+    def __init__(self, *args, **kwargs):
+        super(UserUpdateForm, self).__init__(*args, **kwargs)
+
+        self.fields['email'].label = 'Ваша почта'
+        self.fields['email'].required = True
+

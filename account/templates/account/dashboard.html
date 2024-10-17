@@ -1,0 +1,31 @@
+{% extends "layout/base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="bg-white shadow-lg rounded p-4">
+        <h4 class="text-center">Профиль</h4>
+        <h5 class="text">Ваше имя: {{ user.username }}</h5>
+        <h5 class="text">Ваша почта: {{ user.email }}</h5>
+
+        <hr>
+
+        <h6 class="mt-4">Personal Information</h6>
+
+        <hr>
+
+        <div class="3">
+            <a href="{% url 'account:profile' %}" class="mb-2">
+                <button class="btn btn-success btn-lg">Изменить профиль</button>
+            </a>
+            <a href="{% url 'account:logout' %}" class="mb-2">
+                <button class="btn btn-primary btn-lg">Выйти</button>
+            </a>
+            <a href="{% url 'account:delete' %}">
+                <button class="btn btn-warning btn-lg">Удалить аккаунт</button>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

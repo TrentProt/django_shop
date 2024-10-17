@@ -61,23 +61,6 @@
     </style>
 </head>
 <body>
-    <div class="superNav border-bottom py-2 bg-light">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-auto centerOnMobile">
-                    <select class="me-3 border-0 bg-light">
-                        <option value="en-us">EN-US</option>
-                    </select>
-                    <span class="d-none d-lg-inline-block"><strong>info@somedomain.com</strong></span>
-                    <span class="me-3"><i class="fa-solid fa-phone me-1 text-warning"></i><strong>1-800-123-1234</strong></span>
-                </div>
-                <div class="col-auto d-none d-lg-flex">
-                    <span class="me-3"><i class="fa-solid fa-truck text-muted me-1"></i><a class="text-muted" href="#">Shipping</a></span>
-                    <span class="me-3"><i class="fa-solid fa-file text-muted me-2"></i><a class="text-muted" href="#">Policy</a></span>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <nav class="navbar navbar-expand-lg bg-white sticky-top navbar-light p-3 shadow-sm">
         <div class="container">
@@ -150,11 +133,30 @@
                             </span>
                         </a>
                     </li>
+                    {% if request.user.is_authenticated%}
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">
-                            <i class="fa-solid fa-circle-user me-1"></i> Account
+                        <a class="nav-link mx-2 text-uppercase" href="{% url 'account:dashboard' %}">
+                            <i class="fa-solid fa-circle-user me-1"></i> {{ user.username }}
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase" href="{% url 'account:logout' %}">
+                            <i class="fa-solid fa-circle-user me-1"></i> Выйти
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase" href="{% url 'account:login' %}">
+                            <i class="fa-solid fa-circle-user me-1"></i> Войти
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2 text-uppercase" href="{% url 'account:registration' %}">
+                            <i class="fa-solid fa-circle-user me-1"></i> Зарегистрироваться
+                        </a>
+                    </li>
+                    {% endif %}
+
                 </ul>
             </div>
         </div>
