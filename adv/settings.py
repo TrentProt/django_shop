@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'basket.apps.BasketConfig',
     'account.apps.AccountConfig',
+    'payment.apps.PaymentConfig',
 ]
 
 MIDDLEWARE = [

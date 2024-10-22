@@ -9,6 +9,7 @@ urlpatterns = [
     path('shop/', include('shop.urls', namespace='shop')),
     path('basket/', include('basket.urls', namespace='basket')),
     path('account/', include('account.urls', namespace='account')),
+    path('payment/', include('payment.urls', namespace='payment')),
     path('email/', include(email_urls), name='email_verification_sent'),
 ]
 

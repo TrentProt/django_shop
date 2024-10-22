@@ -1,0 +1,44 @@
+{% include "layout/base.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="bg-white shadow-lg rounded p-4">
+        <h3 class="text-center">Доставка</h3>
+        <br>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary btn-lg w-100">Сохранить данные</button>
+        </form>
+
+        <br>
+
+        {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for field in form %}
+                    {% if field.errors %}
+                        <div>{{ field.errors }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if messages %}
+        <ul class="list-unstyled mt-3">
+            {% for message in messages %}
+                <li class="alert alert-info">
+                    {{ message|safe }}
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock content %}
