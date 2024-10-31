@@ -12,5 +12,27 @@
             <button type="submit" class="btn btn-primary btn-lg">Login</button>
         </form>
     </div>
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for field in form %}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="text-center">
+        <a href="{% url 'account:registration' %}">Еще нету аккаунта?</a>
+    </div>
+
+    <br>
+    <div class="text-center">
+        <a href="{% url 'account:password_reset' %}">Забыл пароль?</a>
+    </div>
 </div>
+
+
+
+
+
 {% endblock %}

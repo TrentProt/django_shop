@@ -7,6 +7,7 @@ User = get_user_model()
 
 class UserCreateForm(UserCreationForm):
 
+
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
@@ -43,4 +44,19 @@ class UserUpdateForm(forms.ModelForm):
 
         self.fields['email'].label = 'Ваша почта'
         self.fields['email'].required = True
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError('Такое имя уже используется')
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+        print(User.objects.filter(id=self.instance.id))
+        if User.objects.filter(email=email).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError('Такая почта уже используется')
+        return email
+
+
 

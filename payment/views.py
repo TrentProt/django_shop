@@ -1,11 +1,21 @@
+import uuid
+from locale import currency
+from re import match
+import uuid
+
+from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-
+from django.urls import reverse
+from yookassa import Configuration, Payment
 from basket.basket import Basket
 from .forms import ShippingAddressForm
 from .models import Order, OrderItem, ShippingAddress
+
+Configuration.account_id = settings.YOOKASSA_SHOP_ID
+Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
 
 @login_required(login_url='account:login')
 def shipping(request):
@@ -34,7 +44,7 @@ def payment_fail(request):
 
 def complete_order(request):
     print(request.POST.get)
-    if request.POST.get('action') == 'payment':
+    if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         street_address = request.POST.get('street_address')
@@ -42,9 +52,27 @@ def complete_order(request):
         city = request.POST.get('city')
         country = request.POST.get('country')
         zip_code = request.POST.get('zip_code')
-
         basket = Basket(request)
         total_price = basket.get_total_price()
+
+
+        idemotence_key = uuid.uuid4()
+        currency = 'RUB'
+        description = 'Товары в корзине'
+        payment = Payment.create({
+            'amount': {
+                'value': str(total_price*100),
+                'currency': currency
+            },
+            'confirmation': {
+                'type': 'redirect',
+                'return_url': request.build_absolute_uri(reverse('payment:payment_success')),
+            },
+            'capture': True,
+            'test': True,
+            'description': description
+        }, idemotence_key)
+
         shipping_address, _ = ShippingAddress.objects.get_or_create(
             user=request.user,
             defaults={
@@ -57,24 +85,46 @@ def complete_order(request):
                 'zip_code': zip_code
             }
         )
-        order = Order.objects.create(user=request.user, shipping_address=shipping_address, amount=total_price)
+        cofirmation_url = payment.confirmation.confirmation_url
         if request.user.is_authenticated:
+            order = Order.objects.create(user=request.user, shipping_address=shipping_address, amount=total_price)
+            for item in basket:
+                OrderItem.objects.create(
+                            order=order,
+                            product=item['product'],
+                            price=item['price'],
+                            quantity=item['qty'],
+                            user=request.user
+                        )
+            return redirect(cofirmation_url)
+        else:
+            order = Order.objects.create(shipping_address=shipping_address,
+                                         amount=total_price)
             for item in basket:
                 OrderItem.objects.create(
                     order=order,
                     product=item['product'],
                     price=item['price'],
-                    quantity=item['qty'],
-                    user=request.user
-                )
-        else:
-            for item in basket:
-                OrderItem.objects.create(
-                    order=order,
-                    product=item['product'],
                     quantity=item['qty']
                 )
-        return JsonResponse({'success': True})
+        # order = Order.objects.create(user=request.user, shipping_address=shipping_address, amount=total_price)
+        # if request.user.is_authenticated:
+        #     for item in basket:
+        #         OrderItem.objects.create(
+        #             order=order,
+        #             product=item['product'],
+        #             price=item['price'],
+        #             quantity=item['qty'],
+        #             user=request.user
+        #         )
+        # else:
+        #     for item in basket:
+        #         OrderItem.objects.create(
+        #             order=order,
+        #             product=item['product'],
+        #             quantity=item['qty']
+        #         )
+        # return JsonResponse({'success': True})
 
 def checkout(request):
     if request.user.is_authenticated:

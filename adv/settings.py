@@ -162,9 +162,12 @@ EMAIL_MAIL_CALLBACK = email_verified_callback
 # EMAIL_PASSWORD_CALLBACK = password_change_callback
 
 # For Django Email Backend
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = '333cuteclown@mail.ru'  # замените на ваш адрес электронной почты
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')  # добавьте ваш пароль
 EMAIL_USE_TLS = True
+
+YOOKASSA_SECRET_KEY = env("YOOKASSA_SECRET_KEY")
+YOOKASSA_SHOP_ID = env("YOOKASSA_SHOP_ID")

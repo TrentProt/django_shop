@@ -53,18 +53,27 @@ def dashboard_user(request):
 
 @login_required(login_url='account:login')
 def profile_user(request):
+    user = request.user
+    email = user.email
+    print(email)
     if request.method == 'POST':
-        form = UserUpdateForm(request.POST)
+        form = UserUpdateForm(request.POST, instance=user)
+        # С помощью этого валидация на форме, передавая instance
         if form.is_valid():
-            user = request.user
             user.username = form.cleaned_data.get('username')
             user.email = form.cleaned_data.get('email')
-            user.password = form.cleaned_data.get('password')
+            print(user.email)
+            password = form.cleaned_data.get('password')
+            if password:
+                user.set_password(password)
+            user.is_active = False
             user.save()
-            login(request, user)
+            if email != user.email:
+                send_email(user)
+                return redirect('account:email_verification')
             return redirect('account:dashboard')
     else:
-        form = UserUpdateForm()
+        form = UserUpdateForm(instance=user)
     return render(request, 'account/profile.html', {'form': form})
 
 @login_required(login_url='account:login')
