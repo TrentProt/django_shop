@@ -28,6 +28,7 @@ class Order(models.Model):
     amount = models.DecimalField(max_digits=9, decimal_places=2)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    paid = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Заказ'

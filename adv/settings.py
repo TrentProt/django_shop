@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_email_verification',
+    'django_celery_beat',
+    'django_celery_results',
     #apps
     'shop.apps.ShopConfig',
     'basket.apps.BasketConfig',
@@ -171,3 +173,9 @@ EMAIL_USE_TLS = True
 
 YOOKASSA_SECRET_KEY = env("YOOKASSA_SECRET_KEY")
 YOOKASSA_SHOP_ID = env("YOOKASSA_SHOP_ID")
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_EXTENDED = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'

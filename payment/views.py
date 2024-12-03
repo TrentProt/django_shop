@@ -1,7 +1,9 @@
 import uuid
+from imghdr import tests
 from locale import currency
 from re import match
 import uuid
+from .tasks import test
 
 from django.conf import settings
 from django.shortcuts import render
@@ -19,6 +21,7 @@ Configuration.secret_key = settings.YOOKASSA_SECRET_KEY
 
 @login_required(login_url='account:login')
 def shipping(request):
+    test.delay('2')
     try:
         shipping_address = ShippingAddress.objects.get(user=request.user)
     except ShippingAddress.DoesNotExist:
@@ -43,6 +46,7 @@ def payment_fail(request):
     return render(request, 'payment/payment_fail.html')
 
 def complete_order(request):
+    test.delay('2')
     print(request.POST.get)
     if request.method == 'POST':
         name = request.POST.get('name')
